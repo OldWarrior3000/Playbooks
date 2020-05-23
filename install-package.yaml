@@ -1,0 +1,12 @@
+- hosts: server1
+  remote_user: dr
+  become: yes
+  tasks:
+    - name: Install packages
+      apt: name= state=present
+      with_items:
+          - qemu-kvm
+          - libvirt-clients
+          - libvirt-daemon-system
+          - bridge-utils
+          - virt-manager
