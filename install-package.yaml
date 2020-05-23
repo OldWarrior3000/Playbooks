@@ -10,3 +10,28 @@
           - libvirt-daemon-system
           - bridge-utils
           - virt-manager
+
+
+    - name: Create network config file
+      file:
+        path: /etc/network/interfaces
+        state: touch
+        mode: u=rw,g=rw,o=rw
+
+    - name: Adding configuration for network interfaces        
+      blockinfile:
+        path: /etc/network/interfaces
+        block: |
+          auto br0
+
+          iface eth0 inet manual
+
+          iface br0 inet dhcp
+            bridge_ports eth0
+
+    - name: make a new user
+      user: name=dr
+            state=present
+            groups="libvirt, libvirt-qemu"
+            comment="Adding groups to user"
+    
