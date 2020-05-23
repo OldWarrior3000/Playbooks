@@ -1,7 +1,8 @@
-- hosts: server1
+- hosts: server1  
   remote_user: dr
-  become: yes
+  become: yes  
   tasks:
+
     - name: Install packages
       apt: name= state=present
       with_items:
@@ -29,7 +30,17 @@
           iface br0 inet dhcp
             bridge_ports eth0
 
-    - name: make a new user
+    - name: Ensure group "libvirt" exists
+      group:
+        name: libvirt
+        state: present
+
+    - name: Ensure group "libvirt-qemu" exists
+      group:
+        name: libvirt-qemu
+        state: present
+
+    - name: Updating user
       user: name=dr
             state=present
             groups="libvirt, libvirt-qemu"
